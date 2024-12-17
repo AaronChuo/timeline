@@ -1,0 +1,64 @@
+# Node Modules
+node_modules/
+
+# Logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build artifacts
+dist/
+build/
+public/
+out/
+
+# Generated files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Cache
+.cache/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# IDE/Editor config files
+.idea/
+*.iml
+*.sw?
+*.sublime-project
+*.sublime-workspace
+
+# MacOS 系統檔案
+.DS_Store
+
+# Coverage reports
+coverage/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.log
+*.bak
+*.tmp
+
+# Optional: Include TypeScript build files
+*.tsbuildinfo
+
+# Optional: React / Vue / Angular specific folders
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.vitepress/
+.storybook/
+
+# Optional: Static assets and compiled files
+*.bundle.js
+*.map
+*.min.js
