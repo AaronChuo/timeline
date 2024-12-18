@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Playhead } from "./Playhead";
-import { Ruler } from "./Ruler";
-import { TrackList } from "./TrackList";
-import { KeyframeList } from "./KeyframeList";
-import { PlayControls } from "./PlayControls";
+import { Playhead } from "./components/Playhead";
+import { Ruler } from "./components/Ruler";
+import { TrackList } from "./components/TrackList";
+import { KeyframeList } from "./components/KeyframeList";
+import { PlayControls } from "./components/PlayControls";
 
 export const Timeline = () => {
   // FIXME: performance concerned

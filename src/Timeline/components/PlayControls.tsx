@@ -8,7 +8,7 @@ type PlayControlsProps = {
 export const PlayControls = ({ time, setTime }: PlayControlsProps) => {
   // TODO: implement time <= maxTime
 
-  const onTimeChange = useCallback(
+  const handleTimeChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setTime(Number(e.target.value));
     },
@@ -31,7 +31,7 @@ export const PlayControls = ({ time, setTime }: PlayControlsProps) => {
           max={2000}
           step={10}
           value={time}
-          onChange={onTimeChange}
+          onChange={handleTimeChange}
         />
       </fieldset>
       -
