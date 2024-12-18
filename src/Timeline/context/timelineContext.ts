@@ -1,4 +1,8 @@
 import { createContext } from "react";
-import { TimelineContextType } from "./timelineTypes";
+import { TimelineContextType } from "./types";
+import { initialState } from './TimelineProvider';
 
-export const TimelineContext = createContext<TimelineContextType | null>(null);
+export const TimelineContext = createContext<TimelineContextType>({
+  state: initialState,
+  dispatch: () => {},
+});
