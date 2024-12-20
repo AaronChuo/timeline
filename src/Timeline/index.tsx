@@ -1,5 +1,5 @@
 export * from "./Timeline";
-export * from "./components/PlayControls";
+export * from "./components/PlayControls/PlayControls";
 export * from "./components/KeyframeList";
 export * from "./components/Ruler";
 export * from "./components/TrackList";
