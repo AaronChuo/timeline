@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import {
-  REGEXP_LEADING_ZEROS,
-  REGEXP_ONLY_NUMBERS,
-} from "../../constants/regexp";
-import { clamp } from "../../utils/mathUtils";
+import { REGEXP_LEADING_ZEROS, REGEXP_ONLY_NUMBERS } from "../../constants/regexp";
+import { clamp, roundToStep } from "../../utils/mathUtils";
 
 type NumberInputProps = {
   value: number;
@@ -12,6 +9,11 @@ type NumberInputProps = {
   max?: number;
   step?: number;
   dataTestid?: string;
+};
+
+type ValidateAndFormatReturn = {
+  isValid: boolean;
+  parsedValue: number;
 };
 
 export const NumberInput: React.FC<NumberInputProps> = ({
@@ -23,47 +25,69 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   dataTestid = "",
 }) => {
   const [inputValue, setInputValue] = useState<string>(value.toString());
+  const [isInvalid, setIsInvalid] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const previousValue = useRef<number>(value);
+  const isStepButtonClicked = useRef(false); // Workaround: detect clicks on the native step buttons
+
+  const validateAndFormat = useCallback(
+    (value: string): ValidateAndFormatReturn => {
+      const parsedValue = parseInt(value);
+      const isValid =
+        REGEXP_ONLY_NUMBERS.test(value)
+          && !isNaN(parsedValue)
+          && parsedValue % step === 0;
+
+      return { isValid, parsedValue };
+    },
+    [step]
+  );
   
+  // Update the value, ensuring it is clamped to the valid range
   const updateValue = useCallback((value: number) => {
-    previousValue.current = value;
-    setInputValue(value.toString());
-    onChange(value);
-  }, [onChange]);
+    const clampedValue = clamp(value, min, max);
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    // Remove leading zeros
-    const newValue = e.target.value.replace(REGEXP_LEADING_ZEROS, "");
+    previousValue.current = clampedValue;
+    isStepButtonClicked.current = false;;
+    onChange(clampedValue);
+  }, [value, min, max, onChange]);
 
-    if (REGEXP_ONLY_NUMBERS.test(newValue)) {
-      setInputValue(newValue);
-    }
+  // Workaround: detect clicks on the native step buttons
+  const handleMouseDown = useCallback(() => {
+    isStepButtonClicked.current = true;
   }, []);
 
+  // Handle input value changes, validate input, and update for step button clicks
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    // Remove leading zeros
+    const newValue = e.target.value.replace(REGEXP_LEADING_ZEROS, "");
+    setInputValue(newValue);
+
+    const { isValid, parsedValue } = validateAndFormat(newValue);
+    setIsInvalid(!isValid);
+    
+    // Click on the native step buttons
+    if (isStepButtonClicked.current) {
+      updateValue(parsedValue);
+    }
+  }, [updateValue]);
+
+  // Confirm changes on blur or Enter, ensuring value is valid and clamped
   const handleConfirmChange = useCallback(() => {
-    // Round value to the nearest integer
-    let roundedValue = Math.round(parseInt(inputValue));
+    const { parsedValue } = validateAndFormat(inputValue);
+    setIsInvalid(false);
 
     // Reset to previous value if input is invalid
-    if (isNaN(roundedValue)) {
+    if (isNaN(parsedValue)) {
       setInputValue(previousValue.current.toString());
       return;
     }
 
-    // Clamp value within the limited range
-    roundedValue = clamp(roundedValue, min, max);
-
+    const roundedValue = roundToStep(clamp(parsedValue, min, max), step);
     updateValue(roundedValue);
-  }, [inputValue, min, max, updateValue]);
+  }, [inputValue, min, max, step, updateValue]);
 
-  const handleStepChange = useCallback((increment: number) => {
-    const newValue = value + increment;
-    const clampedNewValue = clamp(newValue, min, max);
-
-    updateValue(clampedNewValue);
-  }, [value, min, max, updateValue]);
-
+  // Handle keyboard interactions: Enter, Escape, and Arrow keys
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     switch (e.key) {
       case "Enter":
@@ -77,17 +101,18 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         break;
   
       case "ArrowUp":
-        handleStepChange(step);
+        updateValue(previousValue.current + step);
         break;
   
       case "ArrowDown":
-        handleStepChange(-step);
+        updateValue(previousValue.current - step);
         break;
   
       default:
+        isStepButtonClicked.current = false;
         break;
     }
-  }, [handleConfirmChange, handleStepChange, step]);
+  }, [step, handleConfirmChange, updateValue]);
 
   const handleFocus = useCallback(() => {
     inputRef.current?.select();
@@ -95,7 +120,6 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
   useEffect(() => {
     setInputValue(value.toString());
-    previousValue.current = value;
   }, [value]);
 
   return (
@@ -107,11 +131,12 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       min={min}
       max={max}
       step={step}
-      onChange={handleInputChange}
+      onChange={handleChange}
+      onMouseDown={handleMouseDown}
       onBlur={handleConfirmChange}
       onFocus={handleFocus}
       onKeyDown={handleKeyDown}
-      className="bg-gray-700 px-1 rounded"
+      className={`bg-gray-700 px-1 rounded ${isInvalid ? "text-red-500" : ""}`}
     />
   );
 };

@@ -2,7 +2,7 @@ import { Playhead } from "./components/Playhead";
 import { Ruler } from "./components/Ruler";
 import { TrackList } from "./components/TrackList";
 import { KeyframeList } from "./components/KeyframeList";
-import { PlayControls } from "./components/PlayControls";
+import { PlayControls } from "./components/PlayControls/PlayControls";
 import { TimelineProvider } from "./context/TimelineProvider";
 
 export const Timeline = () => {
