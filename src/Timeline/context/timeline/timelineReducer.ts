@@ -1,5 +1,5 @@
 import { TimelineState, TimelineAction } from "./types";
-import { clamp } from "../utils/mathUtils";
+import { clamp } from "../../utils/mathUtils";
 
 const MIN_DURATION = 100;
 const MAX_DURATION = 6000;
@@ -12,7 +12,7 @@ export const timelineReducer = (
     case "SET_TIME":
       return {
         ...state,
-        time: Math.min(action.payload, state.duration)
+        time: Math.min(action.payload, state.duration),
       };
 
     case "SET_DURATION":
@@ -20,6 +20,18 @@ export const timelineReducer = (
         ...state,
         duration: clamp(action.payload, MIN_DURATION, MAX_DURATION),
         time: Math.min(state.time, action.payload),
+      };
+
+    case "SET_SCROLL_LEFT":
+      return {
+        ...state,
+        scrollLeft: action.payload,
+      };
+
+    case "SET_SCROLL_TOP":
+      return {
+        ...state,
+        scrollTop: action.payload,
       };
 
     default:

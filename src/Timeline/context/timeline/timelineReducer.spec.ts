@@ -8,7 +8,9 @@ describe("timelineReducer", () => {
   beforeEach(() => {
     initialState = {
       time: 0,
-      duration: 2000
+      duration: 2000,
+      scrollLeft: 0,
+      scrollTop: 0,
     };
     dispatchAction = (action: TimelineAction) => timelineReducer(initialState, action);
   });
@@ -49,7 +51,7 @@ describe("timelineReducer", () => {
   });
 
   it("limits time to duration when duration decreases", () => {
-    initialState = { time: 2000, duration: 2000 };
+    initialState = { time: 2000, duration: 2000, scrollLeft: 0, scrollTop: 0 };
 
     const action: TimelineAction = { type: "SET_DURATION", payload: 1500 };
     const result = timelineReducer(initialState, action);

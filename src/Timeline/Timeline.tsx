@@ -1,9 +1,9 @@
-import { Playhead } from "./components/Playhead";
-import { Ruler } from "./components/Ruler";
-import { TrackList } from "./components/TrackList";
-import { KeyframeList } from "./components/KeyframeList";
+import { Playhead } from "./components/Playhead/Playhead";
+import { Ruler } from "./components/Ruler/Ruler";
+import { TrackList } from "./components/TrackList/TrackList";
+import { KeyframeList } from "./components/KeyframeList/KeyframeList";
 import { PlayControls } from "./components/PlayControls/PlayControls";
-import { TimelineProvider } from "./context/TimelineProvider";
+import { TimelineProvider } from "./context/timeline/TimelineProvider";
 
 export const Timeline = () => {
   // FIXME: performance concerned
@@ -12,15 +12,16 @@ export const Timeline = () => {
   return (
     <TimelineProvider>
       <div
+        id="timeline-container"
         className="relative h-[300px] w-full grid grid-cols-[300px_1fr] grid-rows-[40px_1fr] 
-      bg-gray-800 border-t-2 border-solid border-gray-700"
+      bg-gray-800 border-t-2 border-solid border-gray-700 overflow-hidden"
         data-testid="timeline"
       >
         <PlayControls />
         <Ruler />
         <TrackList />
         <KeyframeList />
-        <Playhead time={0} />
+        <Playhead />
       </div>
     </TimelineProvider>
   );

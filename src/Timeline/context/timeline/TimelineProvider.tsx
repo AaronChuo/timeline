@@ -6,6 +6,8 @@ import { TimelineState, TimelineProviderProps } from "./types";
 export const initialState: TimelineState = {
   time: 0,
   duration: 2000,
+  scrollLeft: 0,
+  scrollTop: 0,
 };
 
 export const TimelineProvider = ({ children }: TimelineProviderProps) => {
