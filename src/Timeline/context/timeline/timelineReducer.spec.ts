@@ -19,35 +19,35 @@ describe("timelineReducer", () => {
     const action: TimelineAction = { type: "SET_TIME", payload: 1500 };
 
     expect(dispatchAction(action))
-      .toEqual({ time: 1500, duration: 2000 });
+      .toEqual({ time: 1500, duration: 2000, scrollLeft: 0, scrollTop: 0 });
   });
 
   it("handles SET_DURATION action", () => {
     const action: TimelineAction = { type: "SET_DURATION", payload: 3000 };
 
     expect(dispatchAction(action))
-      .toEqual({ time: 0, duration: 3000 });
+      .toEqual({ time: 0, duration: 3000, scrollLeft: 0, scrollTop: 0 });
   });
 
   it("limits time to duration when SET_TIME is dispatched", () => {
     const action: TimelineAction = { type: "SET_TIME", payload: 2500 };
 
     expect(dispatchAction(action))
-      .toEqual({ time: 2000, duration: 2000 });
+      .toEqual({ time: 2000, duration: 2000, scrollLeft: 0, scrollTop: 0 });
   });
 
   it("limits duration to minimum duration", () => {
     const action: TimelineAction = { type: "SET_DURATION", payload: 50 };
   
     expect(dispatchAction(action)).
-      toEqual({ time: 0, duration: 100 });
+      toEqual({ time: 0, duration: 100, scrollLeft: 0, scrollTop: 0 });
   });
   
   it("limits duration to maximum duration", () => {
     const action: TimelineAction = { type: "SET_DURATION", payload: 7000 };
   
     expect(dispatchAction(action))
-      .toEqual({ time: 0, duration: 6000 });
+      .toEqual({ time: 0, duration: 6000, scrollLeft: 0, scrollTop: 0 });
   });
 
   it("limits time to duration when duration decreases", () => {
@@ -57,6 +57,6 @@ describe("timelineReducer", () => {
     const result = timelineReducer(initialState, action);
 
     expect(result)
-      .toEqual({ time: 1500, duration: 1500 });
+      .toEqual({ time: 1500, duration: 1500, scrollLeft: 0, scrollTop: 0 });
   });
 });

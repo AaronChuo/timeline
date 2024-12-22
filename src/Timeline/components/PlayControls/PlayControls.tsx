@@ -1,5 +1,5 @@
 import { useCallback, useContext } from "react";
-import { TimelineContext } from "../../context/timelineContext";
+import { TimelineContext } from "../../context/timeline/timelineContext";
 import { NumberInput } from "../NumberInput/NumberInput";
 
 export const PlayControls = () => {
