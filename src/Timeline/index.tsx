@@ -1,4 +1,4 @@
-export * from "./Timeline";
+export * from "./components/Timeline";
 export * from "./components/PlayControls/PlayControls";
 export * from "./components/KeyframeList/KeyframeList";
 export * from "./components/Ruler/Ruler";

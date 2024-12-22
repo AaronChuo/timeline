@@ -1,14 +1,11 @@
-import { Playhead } from "./components/Playhead/Playhead";
-import { Ruler } from "./components/Ruler/Ruler";
-import { TrackList } from "./components/TrackList/TrackList";
-import { KeyframeList } from "./components/KeyframeList/KeyframeList";
-import { PlayControls } from "./components/PlayControls/PlayControls";
-import { TimelineProvider } from "./context/timeline/TimelineProvider";
+import { Playhead } from "./Playhead/Playhead";
+import { Ruler } from "./Ruler/Ruler";
+import { TrackList } from "./TrackList/TrackList";
+import { KeyframeList } from "./KeyframeList/KeyframeList";
+import { PlayControls } from "./PlayControls/PlayControls";
+import { TimelineProvider } from "../context/timeline/TimelineProvider";
 
 export const Timeline = () => {
-  // FIXME: performance concerned
-  // const [time, setTime] = useState(0);
-
   return (
     <TimelineProvider>
       <div
