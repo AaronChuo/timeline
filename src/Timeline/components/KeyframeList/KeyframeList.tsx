@@ -1,18 +1,21 @@
-import { useRef, useContext, useCallback, useEffect } from "react";
-import { TimelineContext } from "../../context/timeline/timelineContext";
+import { useRef, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectScrollLeft, selectScrollTop } from "../../redux/selectors/timelineSelector";
+import { setScrollLeft, setScrollTop } from "../../redux/slices/timelineSlice";
 import { Segment } from "../Segment/Segment";
 
 export const KeyframeList = () => {
-  const { state, dispatch } = useContext(TimelineContext);
-  const { scrollLeft, scrollTop } = state;
+  const dispatch = useDispatch();
+  const scrollLeft = useSelector(selectScrollLeft);
+  const scrollTop = useSelector(selectScrollTop);
   const keyframeListRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = useCallback(() => {
     const keyframeListScrollLeft = keyframeListRef.current?.scrollLeft || 0;
     const keyframeListScrollTop = keyframeListRef.current?.scrollTop || 0;
 
-    dispatch({ type: "SET_SCROLL_LEFT", payload: keyframeListScrollLeft });
-    dispatch({ type: "SET_SCROLL_TOP", payload: keyframeListScrollTop });
+    dispatch(setScrollLeft(keyframeListScrollLeft));
+    dispatch(setScrollTop(keyframeListScrollTop));
   }, [dispatch]);
 
   useEffect(() => {
