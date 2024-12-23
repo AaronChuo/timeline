@@ -1,9 +1,8 @@
-import { useContext, } from "react";
-import { TimelineContext } from "../../context/timeline/timelineContext";
+import { useSelector } from "react-redux";
+import { selectDuration } from "../../redux/selectors/timelineSelector";
 
 export const Segment = () => {
-  const { state } = useContext(TimelineContext);
-  const { duration } = state;
+  const duration = useSelector(selectDuration);
 
   return (
     <div
