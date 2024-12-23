@@ -28,11 +28,68 @@ https://github.com/user-attachments/assets/6f9cc399-c0e4-4e44-8a36-ad9d03f1395c
   - Shows tracks aligned with the keyframes.
   - Synchronizes vertical scrolling with the Keyframe List.
  
+## Directory Structure
+**Redux version**
+```
+Timeline/
+├── src/
+│   ├── Timeline/
+│   │   ├── components/
+│   │   │   ├── PlayControls/
+│   │   │   ├── Playhead/
+│   │   │   ├── Ruler/
+│   │   │   ├── KeyframeList/
+│   │   │   ├── TrackList/
+│   │   │   ├── Segment/
+│   │   │   └── Timeline.tsx
+│   │   ├── constants/
+│   │   ├── redux/
+│   │   │   ├── selectors/
+│   │   │   ├── slices/
+│   │   │   └── store.ts
+│   │   │   └── types.ts
+│   │   ├── testUtils/
+│   │   ├── utils/
+│   │   └── index.tsx
+│   └── App.tsx
+├── public/
+├── README.md
+└── package.json
+```
+
+**Context + Reducer version**
+```
+Timeline/
+├── src/
+│   ├── Timeline/
+│   │   ├── components/
+│   │   │   ├── PlayControls/
+│   │   │   ├── Playhead/
+│   │   │   ├── Ruler/
+│   │   │   ├── KeyframeList/
+│   │   │   ├── TrackList/
+│   │   │   ├── Segment/
+│   │   │   └── Timeline.tsx
+│   │   ├── constants/
+│   │   ├── context/
+│   │   │   ├── timeline/
+│   │   │   │   │── timelineContext.ts
+│   │   │   │   │── timelineReducer.ts
+│   │   │   │   │── timelineProvider.tsx
+│   │   │   │   │── types.ts
+│   │   ├── utils/
+│   │   └── index.tsx
+│   └── App.tsx
+├── public/
+├── README.md
+└── package.json
+```
+ 
 ## Tech Stack
 - **React**: Component-based architecture for building UI.
 - **Tailwind CSS**: For styling and layout.
 - **Jest** and **React Testing Library**: Unit and integration testing.
-- **Context API + Reducer**: For state management.
+- **Redux / Context API + Reducer**: For state management.
 - **TypeScript**: For type safety and improved developer experience.
 
 ## Setup
@@ -82,27 +139,6 @@ Run all test cases:
 npm test
 # or
 yarn test
-```
-
-## Directory Structure
-```
-Timeline/
-├── src/
-│   ├── components/
-│   │   ├── PlayControls/
-│   │   ├── Playhead/
-│   │   ├── Ruler/
-│   │   ├── KeyframeList/
-│   │   ├── TrackList/
-│   │   └── Segment/
-│   ├── context/
-│   │   └── timeline/
-│   ├── utils/
-│   ├── constants/
-│   └── App.tsx
-├── public/
-├── README.md
-└── package.json
 ```
 
 ## User Behavior Requirements
