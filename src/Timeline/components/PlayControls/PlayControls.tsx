@@ -1,18 +1,20 @@
-import { useCallback, useContext } from "react";
-import { TimelineContext } from "../../context/timeline/timelineContext";
+import { useDispatch, useSelector } from "react-redux";
+import { selectDuration, selectTime } from "../../redux/selectors/timelineSelector";
+import { setDuration, setTime } from "../../redux/slices/timelineSlice";
 import { NumberInput } from "../NumberInput/NumberInput";
 
 export const PlayControls = () => {
-  const { state, dispatch } = useContext(TimelineContext);
-  const { time, duration } = state;
+  const dispatch = useDispatch();
+  const time = useSelector(selectTime);
+  const duration = useSelector(selectDuration);
 
-  const handleTimeChange = useCallback((value: number) => {
-    dispatch({ type: "SET_TIME", payload: value });
-  }, [dispatch]);
+  const handleTimeChange = (value: number) => {
+    dispatch(setTime(value));
+  };
 
-  const handleDurationChange = useCallback((value: number) => {
-    dispatch({ type: "SET_DURATION", payload: value });
-  }, [dispatch]);
+  const handleDurationChange = (value: number) => {
+    dispatch(setDuration(value));
+  };
 
   return (
     <div

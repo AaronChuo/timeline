@@ -1,53 +1,53 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import { renderWithRedux } from "../../testUtils/renderWithRedux";
 import { TrackList } from "./TrackList";
-import { TimelineContext } from "../../context/timeline/timelineContext";
+import timelineReducer, { setScrollTop } from "../../redux/slices/timelineSlice";
 
 describe("TrackList", () => {
+  let store: any;
+  let getTimelineState: any;
+
+  beforeEach(() => {
+    store = configureStore({
+      reducer: {
+        timeline: timelineReducer,
+      },
+      preloadedState: {
+        timeline: {
+          time: 100,
+          duration: 2000,
+          scrollLeft: 0,
+          scrollTop: 0,
+        },
+      },
+    });
+    getTimelineState = () => store.getState().timeline;
+  });
+ 
   it("renders correctly with initial state", () => {
-    const mockState = { scrollTop: 0, time: 0, duration: 2000, scrollLeft: 0 };
-    render(
-      <TimelineContext.Provider value={{ state: mockState, dispatch: jest.fn() }}>
-        <TrackList />
-      </TimelineContext.Provider>
-    );
+    renderWithRedux(<TrackList />, store);
     const trackList = screen.getByTestId("track-list");
 
     expect(trackList).toBeInTheDocument();
   });
 
   it("dispatches SET_SCROLL_TOP when scrolled", () => {
-    const mockDispatch = jest.fn();
-    const mockState = { scrollTop: 0, time: 0, duration: 2000, scrollLeft: 0 };
-    render(
-      <TimelineContext.Provider value={{ state: mockState, dispatch: mockDispatch }}>
-        <TrackList />
-      </TimelineContext.Provider>
-    );
+    renderWithRedux(<TrackList />, store);
     const trackList = screen.getByTestId("track-list");
 
     fireEvent.scroll(trackList, { target: { scrollTop: 120 } });
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_SCROLL_TOP",
-      payload: 120,
-    });
+    expect(getTimelineState().scrollTop).toBe(120);
   });
 
-  it("updates scrollTop when context state changes", () => {
-    const mockState = { scrollTop: 50, time: 0, duration: 2000, scrollLeft: 0 };
-    const { rerender } = render(
-      <TimelineContext.Provider value={{ state: mockState, dispatch: jest.fn() }}>
-        <TrackList />
-      </TimelineContext.Provider>
-    );
+  it("updates scrollTop when state changes", () => {
+    const { rerender } = renderWithRedux(<TrackList />, store);
     const trackList = screen.getByTestId("track-list");
-    expect(trackList.scrollTop).toBe(50);
+    expect(trackList.scrollTop).toBe(0);
 
-    const updatedState = { scrollTop: 200, time: 0, duration: 2000, scrollLeft: 0 };
-    rerender(
-      <TimelineContext.Provider value={{ state: updatedState, dispatch: jest.fn() }}>
-        <TrackList />
-      </TimelineContext.Provider>
-    );
+    store.dispatch(setScrollTop(200));
+    rerender(<Provider store={store}><TrackList /></Provider>);
     expect(trackList.scrollTop).toBe(200);
   });
 });

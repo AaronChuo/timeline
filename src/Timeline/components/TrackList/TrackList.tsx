@@ -1,14 +1,16 @@
-import { useRef, useContext, useCallback, useEffect } from "react";
-import { TimelineContext } from "../../context/timeline/timelineContext";
+import { useRef, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectScrollTop } from "../../redux/selectors/timelineSelector";
+import { setScrollTop } from "../../redux/slices/timelineSlice";
 
 export const TrackList = () => {
-  const { state, dispatch } = useContext(TimelineContext);
-  const { scrollTop } = state;
+  const dispatch = useDispatch();
+  const scrollTop = useSelector(selectScrollTop);
   const trackListRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = useCallback(() => {
     const trackListScrollTop = trackListRef.current?.scrollTop || 0;
-    dispatch({ type: "SET_SCROLL_TOP", payload: trackListScrollTop });
+    dispatch(setScrollTop(trackListScrollTop));
   }, [dispatch]);
 
   useEffect(() => {

@@ -1,11 +1,14 @@
-import { useRef, useCallback, useContext, useEffect } from "react";
-import { TimelineContext } from "../../context/timeline/timelineContext";
+import { useRef, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectDuration, selectScrollLeft } from "../../redux/selectors/timelineSelector";
+import { setScrollLeft, setTime } from "../../redux/slices/timelineSlice";
 import { clamp } from "../../utils/mathUtils";
 import { RULER_LEFT_PADDING } from "../../constants/ui";
 
 export const Ruler = () => {
-  const { state, dispatch } = useContext(TimelineContext);
-  const { duration, scrollLeft } = state;
+  const dispatch = useDispatch();
+  const duration = useSelector(selectDuration);
+  const scrollLeft = useSelector(selectScrollLeft);
   const rulerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef<boolean>(false);
 
@@ -14,9 +17,13 @@ export const Ruler = () => {
     if (!rulerElement) return 0;
 
     const rect = rulerElement.getBoundingClientRect();
-    const offsetX = clientX - rect.left - RULER_LEFT_PADDING + scrollLeft;
-    console.log(clientX);
-    console.log(scrollLeft);
+    const rulerLeftBound = rect.left + RULER_LEFT_PADDING;
+    /* 
+      clientX: current mouse click position relative to the screen
+      rulerLeftBound: the left bound + padding of the ruler
+      scrollLeft: the current scroll position of the state
+    */
+    const offsetX = clientX - rulerLeftBound + scrollLeft;
 
     const newTime = Math.round(offsetX);
     return clamp(newTime, 0, duration);
@@ -27,7 +34,7 @@ export const Ruler = () => {
     isDragging.current = true;
 
     const newTime = calculateTimeFromPosition(e.clientX);
-    dispatch({ type: "SET_TIME", payload: newTime });
+    dispatch(setTime(newTime));
   }, [calculateTimeFromPosition, dispatch]);
 
   // Dragging and update time when mouse move
@@ -35,7 +42,7 @@ export const Ruler = () => {
     if (!isDragging.current) return;
 
     const newTime = calculateTimeFromPosition(e.clientX);
-    dispatch({ type: "SET_TIME", payload: newTime });
+    dispatch(setTime(newTime));
   }, [calculateTimeFromPosition, dispatch]);
 
   // Stop dragging when mouse up
@@ -45,7 +52,7 @@ export const Ruler = () => {
 
   const handleScroll = useCallback(() => {
     const scrollLeft = rulerRef.current?.scrollLeft || 0;
-    dispatch({ type: "SET_SCROLL_LEFT", payload: scrollLeft });
+    dispatch(setScrollLeft(scrollLeft));
   }, [dispatch]);
 
   useEffect(() => {
