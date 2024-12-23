@@ -1,6 +1,6 @@
 // store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import timelineReducer from './features/timeline/timelineSlice';
+import timelineReducer from './slices/timelineSlice';
 
 export const store = configureStore({
   reducer: {
