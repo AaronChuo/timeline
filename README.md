@@ -1,5 +1,6 @@
 # Phase Timeline Challenge
-
+- Redux Version: [main](https://github.com/AaronChuo/timeline)
+- Context API + Reducer Version: [feature/context-reducer-version](https://github.com/AaronChuo/timeline/tree/feature/context-reducer-version)
 ## Demo
 The **Timeline** is a feature-rich component designed for managing and visualizing sequences of tasks on a time-based ruler. It includes synchronized scrolling, dynamic position updates, and interactive controls for time and duration adjustments.
 
