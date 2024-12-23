@@ -1,13 +1,14 @@
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 import { Playhead } from "./Playhead/Playhead";
 import { Ruler } from "./Ruler/Ruler";
 import { TrackList } from "./TrackList/TrackList";
 import { KeyframeList } from "./KeyframeList/KeyframeList";
 import { PlayControls } from "./PlayControls/PlayControls";
-import { TimelineProvider } from "../context/timeline/TimelineProvider";
 
 export const Timeline = () => {
   return (
-    <TimelineProvider>
+    <Provider store={store}>
       <div
         id="timeline-container"
         className="relative h-[300px] w-full grid grid-cols-[300px_1fr] grid-rows-[40px_1fr] 
@@ -20,6 +21,6 @@ export const Timeline = () => {
         <KeyframeList />
         <Playhead />
       </div>
-    </TimelineProvider>
+    </Provider>
   );
 };
