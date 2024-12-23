@@ -1,10 +1,11 @@
-import { useContext, useState, useMemo, useEffect } from "react";
-import { TimelineContext } from "../../context/timeline/timelineContext";
+import { useState, useMemo, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectTime, selectScrollLeft } from "../../redux/selectors/timelineSelector";
 import { RULER_LEFT_PADDING } from "../../constants/ui";
 
 export const Playhead = () => {
-  const { state } = useContext(TimelineContext);
-  const { time, scrollLeft } = state;
+  const time = useSelector(selectTime);
+  const scrollLeft = useSelector(selectScrollLeft);
   const [isVisible, setIsVisible] = useState(true);
 
   const playheadPosition = useMemo(() => {
