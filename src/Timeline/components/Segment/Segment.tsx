@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { useSelector } from "react-redux";
 import { selectDuration } from "../../redux/selectors/timelineSelector";
 
-export const Segment = () => {
+export const Segment = memo(() => {
   const duration = useSelector(selectDuration);
 
   return (
@@ -13,4 +14,4 @@ export const Segment = () => {
       <div className="h-6 rounded-md bg-white/10"></div>
     </div>
   );
-};
+});
