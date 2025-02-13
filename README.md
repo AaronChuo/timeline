@@ -1,4 +1,4 @@
-# Timeline Component
+# Timeline Editor UI (for Animation / Soundtrack / Movie)
 - Redux Version: [main](https://github.com/AaronChuo/timeline)
 - Context API + Reducer Version: [feature/context-reducer-version](https://github.com/AaronChuo/timeline/tree/feature/context-reducer-version)
 ## Demo
