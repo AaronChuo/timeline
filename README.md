@@ -1,4 +1,4 @@
-# Phase Timeline Challenge
+# Timeline Component
 - Redux Version: [main](https://github.com/AaronChuo/timeline)
 - Context API + Reducer Version: [feature/context-reducer-version](https://github.com/AaronChuo/timeline/tree/feature/context-reducer-version)
 ## Demo
